@@ -18,7 +18,7 @@ library(geepack) # for modified poisson
 
 # Set Working Directory
 #setwd("") # Kevin's directory
-#setwd("/Users/matthewlee/Box/School/MS Y1/Fall 2018/PH C242C/PH-C242C-Project/") # Matt's directory
+#setwd("/Users/matthewlee/Box/School/MS Y1/Fall 2018/PH C242C/Final Project Data/") # Matt's directory
 setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's directory
 
 ########################
