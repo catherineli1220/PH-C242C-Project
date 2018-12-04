@@ -39,6 +39,15 @@ setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's di
 # GEE
 ########################
 
+gee.fit <- gee(data = data,
+               formula = TOTCHOL ~ as.factor(educ) + CIGPDAY + as.factor(educ)*CIGPDAY + AGE + PERIOD, 
+               id = RANDID, 
+               corstr = 'exchangeable')
+summary(gee.fit)
+
+gee.out <- summary(gee.fit)
+gee.out$coefficients
+
 
 ########################
 # MIXED MODEL
