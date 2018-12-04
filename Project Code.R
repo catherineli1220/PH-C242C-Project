@@ -79,9 +79,13 @@ ggplot(data[data$RANDID %in% c(
 	 return(val)
 	}
 
-	chol.ols.BS <- clusbootreg(
-		'TOTCHOL ~ factor(educ) + CIGPDAY + factor(educ)*CIGPDAY + AGE + PERIOD',
-		data = data, cluster = data$RANDID, reps = 1000)
+	# chol.ols.BS <- clusbootreg(
+	# 	'TOTCHOL ~ factor(educ) + CIGPDAY + factor(educ)*CIGPDAY + AGE + PERIOD',
+	# 	data = data, cluster = data$RANDID, reps = 1000)
+	#
+	# save(chol.ols.BS, file = 'chol-ols-BS.Rdata')
+
+	load('chol-ols-BS.Rdata')
 
 	dplyr::mutate(as.data.frame(chol.ols.BS),
 								Names = rownames(chol.ols.BS),
@@ -90,8 +94,9 @@ ggplot(data[data$RANDID %in% c(
 								`97.5th` = `Estimate` - qnorm(0.975) * `Std. Error`,
 								`Pr(Z>|z|)` = pnorm(abs(`Estimate`/`Std. Error`),
 																			lower.tail = F) * 2
-								)[,c(3,1,2,4,5,6,7)]
+								)[,c(3,1,2,4,5,6,7)] -> tbl.ols
 
+	tbl.ols
 
 ########################
 # GEE
