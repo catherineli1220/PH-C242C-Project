@@ -84,7 +84,22 @@ gee.fit <- gee(data = data,
 summary(gee.fit)
 
 gee.out <- summary(gee.fit)
-gee.out$coefficients
+gee.est <- as.data.frame(gee.out$coefficients)
+gee.rownames <- rownames(gee.est)
+gee.est <- 
+  gee.est %>% 
+  mutate(
+    variable = gee.rownames,
+    naive.cilow  = Estimate-1.96*`Naive S.E.`,
+    naive.cihigh = Estimate+1.96*`Naive S.E.`, 
+    naive.p = 2*pnorm(-abs(`Naive z`)),
+    robust.cilow  = Estimate-1.96*`Robust S.E.`,
+    robust.cihigh = Estimate+1.96*`Robust S.E.`, 
+    robust.p = 2*pnorm(-abs(`Robust z`))
+    ) %>% 
+  select(variable, everything())
+
+
 
 
 ########################
