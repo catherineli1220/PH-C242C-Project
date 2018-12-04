@@ -1,10 +1,10 @@
 ################################################################################################
 # NAME: Longitudinal Data Analysis Final Project
 # AUTHORS: Kevin Chen, Matt Lee, Catherine Li
-# DATE STARTED: 11/25/2018  
+# DATE STARTED: 11/25/2018
 # PURPOSE: Analysis of the Framingham Teaching Data Set for PH C242C Final Project.
 # UPDATES: 11/25/2018: CL added code to import data set
-#          
+#
 ################################################################################################
 
 ####### PROGRAM START
@@ -12,7 +12,7 @@
 # Clear workspace
 rm(list=ls())
 
-# Load Packages. Be sure your local computer has these installed before running. No need to re-install each time you run. 
+# Load Packages. Be sure your local computer has these installed before running. No need to re-install each time you run.
 library(ggplot2)
 library(gee) # for modified poisson
 
@@ -27,12 +27,13 @@ setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's di
 
   # Import Framingham teaching dataset
   data <- read.csv("frmgham2.csv")
+	# Recode people who smoke more than 2/packs a day to 2 packs
+	data$CIGPDAY <- ifelse(data$CIGPDAY >= 40, 40, data$CIGPDAY)
 
 ########################
 # OLS WITH BOOTSTRAP
 ########################
 
-ols.fit <- lm()
 
 ########################
 # GEE
@@ -43,6 +44,6 @@ ols.fit <- lm()
 # MIXED MODEL
 ########################
 
-  
+
 
 #END
