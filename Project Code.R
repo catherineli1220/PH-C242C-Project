@@ -129,11 +129,26 @@ gee.est <-
 #RANDOM INTERCEPT (RAND ID)
 randint.fit <- lmer(TOTCHOL ~ as.factor(educ) + CIGPDAY + as.factor(educ):CIGPDAY + AGE + PERIOD + (1|RANDID), data = data)
 summary(randint.fit)
+icc(randint.fit)
+
+coef.randint <- fixef(randint.fit)[1:10]
+se.randint <- sqrt(diag(vcov(randint.fit)))[1:10]
+upperCI.randint <- coef.randint + 1.96*se.randint
+lowerCI.randint <- coef.randint - 1.96*se.randint
+
+randint.table <- cbind.data.frame(coef.randint, se.randint, lowerCI.randint, upperCI.randint)
+
 
 #RANDOM SLOPE
-#randcoeff.fit <- lmer(TOTCHOL ~ CIGPDAY + as.factor(educ):CIGPDAY + AGE + PERIOD + (as.factor(educ)|RANDID), data = data)
-randcoeff.fit <- lmer(TOTCHOL ~ factor(educ) + (factor(educ)|RANDID), data = data)
+randcoeff.fit <- lmer(TOTCHOL ~ as.factor(educ) + CIGPDAY + as.factor(educ):CIGPDAY + AGE + PERIOD + (PERIOD|RANDID), data = data)
 summary(randcoeff.fit)
+
+coef.randcoef <- fixef(randint.fit)[1:10]
+se.randcoef <- sqrt(diag(vcov(randcoeff.fit)))[1:10]
+upperCI.randcoef <- coef.randcoef + 1.96*se.randcoef
+lowerCI.randcoef <- coef.randcoef - 1.96*se.randcoef
+
+randcoef.table <- cbind.data.frame(coef.randcoef, se.randcoef, lowerCI.randcoef, upperCI.randcoef)
 
 #END
 
