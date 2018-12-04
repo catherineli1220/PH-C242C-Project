@@ -32,6 +32,24 @@ setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's di
 	data$CIGPDAY <- ifelse(data$CIGPDAY >= 40, 40, data$CIGPDAY)
 
 ########################
+# Exploratory visualization
+########################
+
+ggplot(data[data$RANDID %in% c(
+	sample(unique(data$RANDID[data$educ == 1]), 50),
+	sample(unique(data$RANDID[data$educ == 2]), 50),
+	sample(unique(data$RANDID[data$educ == 3]), 50),
+	sample(unique(data$RANDID[data$educ == 4]), 50)
+	),],
+		aes(PERIOD, TOTCHOL, group = RANDID)) +
+		# geom_path() +
+		geom_smooth(method = 'lm' , se = F, aes(col = CIGPDAY), size = 0.5) +
+		facet_grid(. ~ educ) +
+		xlab('Visit') +
+		theme_bw()+ theme(legend.pos = 'bottom')
+
+
+########################
 # OLS WITH BOOTSTRAP
 ########################
 
@@ -80,25 +98,25 @@ setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's di
 ########################
 
 gee.fit <- gee(data = data,
-               formula = TOTCHOL ~ as.factor(educ) + CIGPDAY + as.factor(educ)*CIGPDAY + AGE + PERIOD, 
-               id = RANDID, 
+               formula = TOTCHOL ~ as.factor(educ) + CIGPDAY + as.factor(educ)*CIGPDAY + AGE + PERIOD,
+               id = RANDID,
                corstr = 'exchangeable')
 summary(gee.fit)
 
 gee.out <- summary(gee.fit)
 gee.est <- as.data.frame(gee.out$coefficients)
 gee.rownames <- rownames(gee.est)
-gee.est <- 
-  gee.est %>% 
+gee.est <-
+  gee.est %>%
   mutate(
     variable = gee.rownames,
     naive.cilow  = Estimate-1.96*`Naive S.E.`,
-    naive.cihigh = Estimate+1.96*`Naive S.E.`, 
+    naive.cihigh = Estimate+1.96*`Naive S.E.`,
     naive.p = 2*pnorm(-abs(`Naive z`)),
     robust.cilow  = Estimate-1.96*`Robust S.E.`,
-    robust.cihigh = Estimate+1.96*`Robust S.E.`, 
+    robust.cihigh = Estimate+1.96*`Robust S.E.`,
     robust.p = 2*pnorm(-abs(`Robust z`))
-    ) %>% 
+    ) %>%
   select(variable, everything())
 
 
