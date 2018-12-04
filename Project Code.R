@@ -14,7 +14,7 @@ rm(list=ls())
 
 # Load Packages. Be sure your local computer has these installed before running. No need to re-install each time you run. 
 library(ggplot2)
-library(geepack) # for modified poisson
+library(gee) # for modified poisson
 
 # Set Working Directory
 #setwd("") # Kevin's directory
@@ -27,6 +27,22 @@ setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's di
 
   # Import Framingham teaching dataset
   data <- read.csv("frmgham2.csv")
+
+########################
+# OLS WITH BOOTSTRAP
+########################
+
+ols.fit <- lm()
+
+########################
+# GEE
+########################
+
+
+########################
+# MIXED MODEL
+########################
+
   
 
 #END
