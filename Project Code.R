@@ -68,9 +68,11 @@ setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's di
 	dplyr::mutate(as.data.frame(chol.ols.BS),
 								Names = rownames(chol.ols.BS),
 								z = `Estimate`/`Std. Error`,
+								`2.5th` = `Estimate` - qnorm(0.975) * `Std. Error`,
+								`97.5th` = `Estimate` - qnorm(0.975) * `Std. Error`,
 								`Pr(Z>|z|)` = pnorm(abs(`Estimate`/`Std. Error`),
 																			lower.tail = F) * 2
-								)[,c(3,1,2,4,5)]
+								)[,c(3,1,2,4,5,6,7)]
 
 
 ########################
@@ -86,7 +88,7 @@ setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's di
 randint.fit <- lmer(TOTCHOL ~ as.factor(educ) + CIGPDAY + as.factor(educ):CIGPDAY + AGE + PERIOD + (1|RANDID), data = data)
 summary(randint.fit)
 
-#RANDOM SLOPE 
+#RANDOM SLOPE
 #randcoeff.fit <- lmer(TOTCHOL ~ CIGPDAY + as.factor(educ):CIGPDAY + AGE + PERIOD + (as.factor(educ)|RANDID), data = data)
 randcoeff.fit <- lmer(TOTCHOL ~ factor(educ) + (factor(educ)|RANDID), data = data)
 summary(randcoeff.fit)
