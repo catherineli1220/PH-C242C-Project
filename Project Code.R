@@ -15,6 +15,7 @@ rm(list=ls())
 # Load Packages. Be sure your local computer has these installed before running. No need to re-install each time you run.
 library(ggplot2)
 library(gee) # for modified poisson
+library(lme4)
 
 # Set Working Directory
 #setwd("") # Kevin's directory
@@ -44,6 +45,14 @@ setwd("C:/Users/Catherine/Desktop/PB HLTH C242C/Final Project") # Catherine's di
 # MIXED MODEL
 ########################
 
+#RANDOM INTERCEPT (RAND ID)
+randint.fit <- lmer(TOTCHOL ~ as.factor(educ) + CIGPDAY + as.factor(educ):CIGPDAY + AGE + PERIOD + (1|RANDID), data = data)
+summary(randint.fit)
 
+#RANDOM SLOPE 
+#randcoeff.fit <- lmer(TOTCHOL ~ CIGPDAY + as.factor(educ):CIGPDAY + AGE + PERIOD + (as.factor(educ)|RANDID), data = data)
+randcoeff.fit <- lmer(TOTCHOL ~ factor(educ) + (factor(educ)|RANDID), data = data)
+summary(randcoeff.fit)
 
 #END
+
